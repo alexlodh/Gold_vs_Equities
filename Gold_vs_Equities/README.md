@@ -11,7 +11,7 @@ This project provides an interactive Streamlit web app to compare the historical
   - Lets users select a custom date range with a slider.
   - Calculates and displays the percentage change in Gold and S&P 500 values over the selected range.
   - Highlights which asset appreciated more (or depreciated less) in the chosen period.
-- **Visualization:**
+- **Visualisation:**
   - (Optional) Includes a script for plotting both assets' price history using Matplotlib and Seaborn.
 
 ## How to Run
@@ -31,7 +31,7 @@ This project provides an interactive Streamlit web app to compare the historical
 
 - `main.py` — Streamlit app entry point.
 - `src/preprocess.py` — Fetches and aligns raw data.
-- `src/eda.py` — (Optional) Script for static data visualization.
+- `src/eda.py` — (Optional) Script for static data visualisation.
 - `data/gold_sp500_aligned.csv` — Aligned dataset (auto-generated).
 - `utils/` — Documentation and setup notes.
 

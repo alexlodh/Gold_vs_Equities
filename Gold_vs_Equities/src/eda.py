@@ -2,9 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def plot_gold_sp500(csv_path="data/gold_sp500_aligned.csv"):
+def plot_gold_sp500(csv_path):
     """
     Plots gold and S&P 500 prices from a CSV file using matplotlib and seaborn.
+
+    Args:
+        csv_path (str): Path to the CSV file containing gold and S&P 500 data.
     """
     df = pd.read_csv(csv_path, parse_dates=["date"])
     plt.figure(figsize=(14, 7))
@@ -17,5 +20,9 @@ def plot_gold_sp500(csv_path="data/gold_sp500_aligned.csv"):
     plt.tight_layout()
     plt.show()
 
+from utils.load_config import load_config
+
 if __name__ == "__main__":
-    plot_gold_sp500()
+    config = load_config("config.yaml")
+    csv_path = config.get("csv_path", "../data/gold_sp500_aligned.csv")
+    plot_gold_sp500(csv_path)

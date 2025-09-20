@@ -1,0 +1,13 @@
+# Core dependencies
+streamlit>=1.46.1
+pandas>=2.3.1
+matplotlib>=3.10.3
+seaborn>=0.13.2
+requests>=2.32.4
+pyyaml>=6.0.2
+
+# Development dependencies
+pytest>=8.4.1
+
+# Additional data fetching (if not using requests directly)
+yfinance>=0.2.0

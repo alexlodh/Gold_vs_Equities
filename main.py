@@ -12,6 +12,35 @@ import matplotlib.pyplot as plt
 DATA_PATH = os.path.join("data", "gold_sp500_aligned.csv")
 HIST_JSON_PATH = "histprices.json"
 
+# US Recession periods (NBER dates from 1971 onwards)
+RECESSION_PERIODS = [
+    ("1973-11-01", "1975-03-31"),  # 1973-75 Oil Crisis Recession
+    ("1980-01-01", "1980-07-31"),  # 1980 Recession
+    ("1981-07-01", "1982-11-30"),  # 1981-82 Early 1980s Recession
+    ("1990-07-01", "1991-03-31"),  # 1990-91 Gulf War Recession
+    ("2001-03-01", "2001-11-30"),  # 2001 Dot-com Recession
+    ("2007-12-01", "2009-06-30"),  # 2007-09 Great Recession
+    ("2020-02-01", "2020-04-30"),  # 2020 COVID-19 Recession
+]
+
+def add_recession_shading(ax, start_date, end_date):
+    """
+    Add grey shading for US recession periods to a matplotlib axis.
+    
+    Args:
+        ax: matplotlib axis object
+        start_date: pd.Timestamp - start of the visible date range
+        end_date: pd.Timestamp - end of the visible date range
+    """
+    for recession_start, recession_end in RECESSION_PERIODS:
+        rec_start = pd.Timestamp(recession_start)
+        rec_end = pd.Timestamp(recession_end)
+        
+        # Only shade if recession overlaps with visible date range
+        if rec_end >= start_date and rec_start <= end_date:
+            ax.axvspan(rec_start, rec_end, alpha=0.2, color='gray', zorder=0)
+
+
 # Check if CSV exists, if not, run enhanced preprocessing
 if not os.path.exists(DATA_PATH):
     st.info("Fetching historical data... This may take a moment.")
@@ -186,20 +215,37 @@ else:
     df_viz = df_range.copy()
     df_viz['gold_indexed'] = 100 * df_viz['gold'] / first_row['gold']
     
+    # Create matplotlib figure for better control
+    fig, ax = plt.subplots(figsize=(12, 6))
+    
+    # Add recession shading first (so it's in the background)
+    add_recession_shading(ax, start_date, end_date)
+    
+    # Plot gold
+    ax.plot(df_viz['date'], df_viz['gold_indexed'], label='Gold', linewidth=2, color='gold')
+    
     if pd.notna(first_row.get("sp500")):
         df_viz['sp500_indexed'] = 100 * df_viz['sp500'] / first_row['sp500']
-        
-        # Plot both
-        chart_data = df_viz[['date', 'gold_indexed', 'sp500_indexed']].set_index('date')
-        chart_data.columns = ['Gold', 'S&P 500']
-        st.line_chart(chart_data)
-    else:
-        # Plot gold only
-        chart_data = df_viz[['date', 'gold_indexed']].set_index('date')
-        chart_data.columns = ['Gold']
-        st.line_chart(chart_data)
+        # Plot S&P 500
+        ax.plot(df_viz['date'], df_viz['sp500_indexed'], label='S&P 500', linewidth=2, color='steelblue')
     
-    st.caption("Index: Start of selected period = 100")
+    # Formatting
+    ax.set_xlabel('Date', fontsize=12, fontweight='bold')
+    ax.set_ylabel('Indexed Value (Start = 100)', fontsize=12, fontweight='bold')
+    ax.set_title('Gold vs S&P 500 Performance (Indexed)', fontsize=14, fontweight='bold', pad=20)
+    ax.grid(True, alpha=0.3, linestyle='--')
+    ax.legend(loc='best', framealpha=0.9, fontsize=10)
+    
+    # Add note about recessions
+    ax.text(0.02, 0.98, 'Gray areas indicate US recessions', 
+            transform=ax.transAxes, fontsize=9, verticalalignment='top',
+            bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+    
+    plt.tight_layout()
+    st.pyplot(fig)
+    plt.close(fig)
+    
+    st.caption("Index: Start of selected period = 100 | Gray shading indicates NBER-defined US recession periods")
     
     # Correlation Analysis Section
     st.write("---")
@@ -328,15 +374,45 @@ else:
                 # Calculate rolling correlation
                 rolling_corr = valid_data['gold'].rolling(window=window_size).corr(valid_data['sp500'])
                 
-                # Create rolling correlation chart
+                # Create rolling correlation chart with matplotlib
                 rolling_df = pd.DataFrame({
                     'date': df_range['date'].iloc[:len(rolling_corr)],
                     'Rolling Correlation': rolling_corr.values
                 })
-                rolling_df = rolling_df.dropna().set_index('date')
+                rolling_df = rolling_df.dropna()
                 
-                st.line_chart(rolling_df)
-                st.caption(f"Rolling {window_label} correlation between Gold and S&P 500")
+                # Create matplotlib figure
+                fig, ax = plt.subplots(figsize=(12, 5))
+                
+                # Add recession shading
+                add_recession_shading(ax, start_date, end_date)
+                
+                # Plot rolling correlation
+                ax.plot(rolling_df['date'], rolling_df['Rolling Correlation'], 
+                       linewidth=2, color='darkgreen', label=f'{window_label} Rolling Correlation')
+                
+                # Add horizontal line at 0
+                ax.axhline(y=0, color='black', linestyle='--', linewidth=1, alpha=0.5)
+                
+                # Formatting
+                ax.set_xlabel('Date', fontsize=12, fontweight='bold')
+                ax.set_ylabel('Correlation Coefficient', fontsize=12, fontweight='bold')
+                ax.set_title(f'Rolling {window_label} Correlation: Gold vs S&P 500', 
+                            fontsize=14, fontweight='bold', pad=20)
+                ax.grid(True, alpha=0.3, linestyle='--')
+                ax.legend(loc='best', framealpha=0.9, fontsize=10)
+                ax.set_ylim(-1, 1)
+                
+                # Add note about recessions
+                ax.text(0.02, 0.98, 'Gray areas indicate US recessions', 
+                       transform=ax.transAxes, fontsize=9, verticalalignment='top',
+                       bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+                
+                plt.tight_layout()
+                st.pyplot(fig)
+                plt.close(fig)
+                
+                st.caption(f"Rolling {window_label} correlation between Gold and S&P 500 | Gray shading indicates recession periods")
                 
                 # Summary statistics
                 st.write(f"**Rolling Correlation Statistics ({window_label}):**")

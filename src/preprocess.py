@@ -2,8 +2,9 @@
 """
 Preprocesses gold and S&P 500 historical data from Yahoo Finance.
 
-Fetches daily gold futures and S&P 500 index prices for the last 25 years,
-aligns them by date, and saves the merged dataset as a CSV file.
+Fetches daily gold futures and S&P 500 index prices beginning in 1971 (or the
+earliest availability), aligns them by date, and saves the merged dataset as a
+CSV file.
 """
 
 
@@ -44,7 +45,9 @@ def main():
     out_path = os.path.join(os.path.dirname(__file__), "..", get_csv_path())
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     merged.to_csv(out_path, index=False)
-    print(f"Saved {len(merged)} aligned records to {out_path}")
+    earliest = merged["date"].min()
+    latest = merged["date"].max()
+    print(f"Saved {len(merged)} aligned records spanning {earliest} to {latest} to {out_path}")
 
 if __name__ == "__main__":
     main()

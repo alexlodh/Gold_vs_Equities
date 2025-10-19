@@ -8,12 +8,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Historical Data Integration**: Monthly gold price data from 1833 to present (192+ years)
+- **New Data Source Module** (`src/load_historical.py`): Utilities for loading and combining historical data
+- **Multiple Data View Options**: Users can now choose between daily, monthly historical, or combined views
+- **Preset Date Ranges**: Quick selection for 1/5/10/25/50 years, since 1900, or all data since 1833
+- **Adjustable Intervals**: Users can now split analysis into 2-10 intervals (previously fixed at 5)
+- **Price Visualization**: Indexed line charts showing normalized performance over time
+- **Enhanced Sidebar Controls**: Organized data settings and date range options
+- **Contextual Information**: Smart notifications about data availability for different time periods
+- **Test Suite** for historical data loading (`tests/test_load_historical.py`)
+- `histprices.json` containing monthly gold prices from 1833-2025
+
+### Changed
+- **Enhanced Main Application**: Completely redesigned `main.py` with multi-source data support
+- **Date Range Selection**: Now supports both preset ranges and custom slider selection
+- **Documentation**: Updated README with new features, usage guide, and data source information
+- **Data Handling**: Improved monthly resampling using 'ME' (month-end) instead of deprecated 'M'
+
+### Fixed
+- Deprecation warnings for pandas resampling frequency
+- Proper handling of missing S&P 500 data in historical periods
+- Enhanced error handling in data loading functions
+
+## [0.2.0] - 2024-10-17
+
+### Added
 - Comprehensive project restructuring with files at repository root
 - Enhanced README.md with detailed documentation
 - Improved .gitignore with comprehensive patterns
 - requirements.txt for pip compatibility
 - MIT License file
-- This changelog
+- Changelog
 
 ### Changed
 - Moved all project files from `Gold_vs_Equities/` subdirectory to repository root

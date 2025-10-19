@@ -1,160 +1,163 @@
-# Gold vs S&P 500: Interactive Performance Comparison
+# Gold vs S&P 500: Historical Analysis (1971-Present)
 
-A Streamlit web application that provides interactive analysis and comparison of Gold futures vs S&P 500 performance over customizable time periods, with historical data dating back to 1833. Users can analyze relative performance across different market conditions and timeframes.
+A sophisticated Streamlit web application for analyzing and comparing Gold vs S&P 500 performance from 1971 onwards—the year the US left the gold standard. Features advanced statistical analysis, correlation studies, and recession period highlighting for comprehensive investment insights.
 
 ## 🚀 Features
 
-### 📊 Interactive Analysis
-- **Multiple Data Sources**: Choose between daily data (2000-present), monthly historical (1833-present), or combined view
-- **Flexible Date Range Selection**: 
-  - Interactive slider for custom time period analysis
-  - Preset ranges: Last 1/5/10/25/50 years, Since 1900, or all data since 1833
-- **Performance Metrics**: Calculates percentage changes and relative performance
-- **Adjustable Interval Analysis**: Split selected periods into 2-10 intervals for granular comparison
-- **Winner Identification**: Clearly highlights which asset outperformed in each period
-- **Price Visualization**: Indexed price charts showing normalized performance over time
+### 📊 Comprehensive Analysis Tools
+- **Historical Dataset**: 658 monthly records from January 1971 to October 2025
+- **Calendar-Style Date Selection**: Easy-to-use date pickers for precise period selection
+- **Preset Ranges**: Quick access to 1Y, 5Y, 10Y, 20Y, Since 2000, Since 1980, or complete dataset
+- **Overall Performance Metrics**: Clear percentage changes with start/end values
+- **Indexed Price Charts**: Normalized performance visualization (base 100)
+- **Recession Highlighting**: Gray shading on all charts for NBER-defined recession periods
 
-### 📈 Data Management
-- **Historical Gold Data**: Monthly gold prices from 1833 to present (from histprices.json)
-- **Modern Market Data**: Daily Gold futures (GC=F) and S&P 500 (^GSPC) from 2000 onwards
-- **Automatic Data Fetching**: Downloads recent data from Yahoo Finance using `yfinance`
-- **Data Alignment**: Merges and aligns data from multiple sources by date
-- **Preprocessing Pipeline**: Automated data cleaning and preparation
-- **Persistent Storage**: Cached data in CSV format for improved performance
+### 📈 Statistical Analysis (PMCC)
+- **Pearson Correlation Coefficient**: Measure linear relationship between assets
+- **Statistical Significance**: P-values and confidence metrics
+- **Scatter Plot with Best-Fit Line**: Matplotlib visualization with linear regression
+- **Coefficient of Determination (R²)**: Variance explanation analysis
+- **Rolling Correlation**: Time-varying correlation with adjustable windows (3-36 months)
+- **Correlation Strength Interpretation**: Automated categorization (Strong/Moderate/Weak)
 
-### 🎨 Visualization & Analysis
-- Clean, intuitive Streamlit interface with sidebar controls
-- Real-time performance calculations
-- Detailed interval breakdowns with color-coded results
-- Line charts showing indexed performance (base 100)
-- Contextual information about data availability
-- Optional exploratory data analysis tools
+### 🎨 Advanced Visualizations
+- **Professional Charts**: Matplotlib-based with recession period shading
+- **Line of Best Fit**: Linear regression on scatter plots
+- **Multiple Chart Types**: Price history, scatter plots, rolling correlations
+- **Recession Context**: Visual markers for 7 major US recessions (1973-2020)
+- **Interactive Elements**: Tooltips, legends, and detailed annotations
+- **Responsive Design**: Clean Streamlit interface optimized for analysis
+
+### 📊 Data Sources & Quality
+- **Historical Gold Prices**: Monthly data from histprices.json (1971-2025)
+- **S&P 500 Index**: Yahoo Finance API integration (^GSPC)
+- **Recent Updates**: Includes October 16, 2025 data
+- **No Gaps**: Complete coverage for entire 54+ year period
+- **Automatic Preprocessing**: Alignment and monthly resampling
 
 ## 📁 Project Structure
 
 ```
-├── README.md                   # Project documentation
-├── main.py                     # Main Streamlit application
-├── config.yaml                 # Configuration settings
-├── histprices.json            # Historical monthly gold prices (1833-2025)
-├── pyproject.toml             # Project dependencies and metadata
-├── uv.lock                    # Lock file for dependencies
-├── test.py                    # Test runner
-├── .gitignore                 # Git ignore patterns
-├── .python-version            # Python version specification
+├── README.md                      # Project documentation
+├── main.py                        # Main Streamlit application
+├── config.yaml                    # Configuration settings
+├── histprices.json                # Historical monthly gold prices (1971-2025)
+├── requirements.txt               # Python dependencies
+├── pyproject.toml                 # Project metadata
 │
-├── src/                       # Source code modules
-│   ├── eda.py                 # Exploratory data analysis tools
-│   ├── fetch_ticker.py        # Data fetching utilities
-│   ├── load_historical.py     # Historical data loader (NEW)
-│   └── preprocess.py          # Data preprocessing pipeline
+├── src/                           # Source code modules
+│   ├── eda.py                     # Exploratory data analysis tools
+│   ├── fetch_ticker.py            # Yahoo Finance data fetching
+│   ├── preprocess.py              # Data preprocessing
+│   └── preprocess_1971.py         # Enhanced preprocessing for 1971+ data
 │
-├── data/                      # Data storage
-│   └── gold_sp500_aligned.csv # Processed historical data (daily)
+├── data/                          # Data storage
+│   └── gold_sp500_aligned.csv     # 658 monthly records (1971-2025)
 │
-├── tests/                     # Unit tests
-│   ├── test_eda.py           # EDA function tests
-│   └── test_preprocess.py    # Preprocessing tests
+├── tests/                         # Unit tests
+│   ├── test_eda.py               # Analysis function tests
+│   └── test_preprocess.py        # Data processing tests
 │
-├── utils/                     # Documentation and utilities
-│   ├── copilot-instructions.md
-│   ├── load_config.py        # Configuration loader
-│   ├── setup.md              # Setup documentation
-│   └── yfinance.md           # yfinance usage guide
-│
-├── logs/                      # Application logs
-│   └── main.log
-│
-└── .github/                   # GitHub specific files
-    └── copilot-instructions.md
+└── utils/                         # Utilities and documentation
+    ├── load_config.py            # Configuration loader
+    └── copilot-instructions.md   # Development guidelines
 ```
 
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
-- Python 3.11 or higher
-- pip or uv package manager
+- Python 3.11.9 or higher
+- Git
 
 ### Quick Start
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd gold-vs-equities
+   git clone https://github.com/alexlodh/Gold_vs_Equities.git
+   cd Gold_vs_Equities
    ```
 
 2. **Install dependencies**
-   
-   Using uv (recommended):
    ```bash
-   uv sync
-   ```
-   
-   Or using pip:
-   ```bash
-   pip install -e .
+   pip install -r requirements.txt
    ```
 
 3. **Run the application**
    ```bash
-   streamlit run main.py
+   python -m streamlit run main.py
    ```
 
 4. **Open your browser**
    - Navigate to `http://localhost:8501`
-   - Start exploring the data!
+   - Start analyzing!
 
-### Alternative Installation Methods
+### Data Regeneration (Optional)
 
-**Using virtual environment:**
+To regenerate the dataset with fresh data from Yahoo Finance:
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install -e .
-streamlit run main.py
+python src/preprocess_1971.py
 ```
 
-**Development installation:**
-```bash
-pip install -e .[dev]  # Includes testing dependencies
-```
+This will:
+- Load historical gold prices from histprices.json (1971+)
+- Fetch S&P 500 data from Yahoo Finance
+- Create monthly aligned dataset
+- Save to `data/gold_sp500_aligned.csv`
 
 ## 📱 Usage Guide
 
 ### Basic Usage
-1. Launch the Streamlit app using `streamlit run main.py`
-2. In the sidebar, select your preferred data source:
-   - **Daily Data (2000-Present)**: High-resolution daily prices
-   - **Monthly Historical (1833-Present)**: Long-term historical perspective
-   - **Combined View**: Best of both worlds with monthly aggregation
-3. Choose a preset date range or select "Custom" for full control
-4. Adjust the number of intervals (2-10) to split your analysis period
-5. View performance metrics, charts, and comparative analysis
+1. Launch the app: `python -m streamlit run main.py`
+2. **Select Date Range** in sidebar:
+   - Choose a preset (1Y, 5Y, 10Y, 20Y, Since 2000, Since 1980, Since 1971)
+   - Or select "Custom" for calendar date pickers
+3. View **Overall Performance** summary with percentage changes
+4. Explore **Price History** chart with recession shading
+5. Analyze **Correlation (PMCC)** section for statistical insights
 
-### Using Date Range Presets
-The sidebar offers convenient preset ranges:
-- **Last 1/5/10/25/50 Years**: Recent market performance
-- **Since 1900**: 20th century onwards
-- **Since 1833 (All Data)**: Complete historical perspective
-- **Custom**: Use the slider for exact date selection
+### Date Range Selection
+**Preset Options:**
+- **Last 1/5/10/20 Years**: Recent market analysis
+- **Since 2000**: 21st century performance
+- **Since 1980**: Modern economic era
+- **Since 1971 (All Data)**: Complete post-gold-standard analysis
 
-### Advanced Features
-- **Adjustable Intervals**: Split your analysis into 2-10 equal periods
-- **Performance Visualization**: Indexed line charts (base 100) show relative performance
-- **Multi-Source Data**: Seamlessly combines historical and modern data
-- **Smart Data Handling**: Automatically indicates when S&P 500 data is unavailable
-- **Percentage Calculations**: View exact percentage changes for each interval
+**Custom Selection:**
+- Click "Custom" in dropdown
+- Use calendar widgets to pick exact start/end dates
+- Validation ensures start date is before end date
 
-### Understanding the Data
-- **Historical Data (1833-1999)**: Monthly gold prices only (S&P 500 index didn't exist)
-- **Modern Data (2000-Present)**: Daily gold and S&P 500 prices
-- **Combined View**: Monthly resampling for consistent comparison across all time periods
+### Understanding the Analysis
 
-### Configuration
-Modify `config.yaml` to adjust:
-- Data sources and tickers
-- Analysis parameters
-- Application settings
+**Overall Performance**
+- Shows total % change for selected period
+- Displays start and end values with dates
+- Identifies which asset outperformed and by how much
+
+**Price History Visualization**
+- Indexed to 100 at start date
+- Gray shading = US recession periods
+- Both assets normalized for direct comparison
+
+**Correlation Analysis (PMCC)**
+- **r value**: Correlation coefficient (-1 to +1)
+- **p-value**: Statistical significance (< 0.05 = significant)
+- **Scatter plot**: Visual relationship with regression line
+- **R²**: Proportion of variance explained
+- **Rolling correlation**: Time-varying relationship (with data limitation warning)
+
+### Recession Periods Highlighted
+- 1973-75: Oil Crisis
+- 1980: Early 80s Recession (Part 1)
+- 1981-82: Early 80s Recession (Part 2)
+- 1990-91: Gulf War Recession
+- 2001: Dot-com Recession
+- 2007-09: Great Recession
+- 2020: COVID-19 Recession
+
+### Why 1971?
+August 15, 1971: President Nixon ended the gold standard, making this the most relevant starting point for comparing gold and equities as investment assets in the modern fiat currency era.
 
 ## 🧪 Testing
 
@@ -171,60 +174,81 @@ python -m pytest tests/test_eda.py
 python -m pytest --cov=src tests/
 ```
 
-## 📊 Data Sources
+## 📊 Data Sources & Statistics
 
-### Modern Market Data (2000-Present)
-- **Gold Futures**: Yahoo Finance ticker `GC=F` (daily prices)
-- **S&P 500 Index**: Yahoo Finance ticker `^GSPC` (daily prices)
-- **Update Frequency**: Data refreshes automatically when running the application
+### Dataset Overview
+- **658 monthly records** from January 1971 to October 2025
+- **54+ years** of consistent, aligned data
+- **No gaps**: Complete coverage for entire period
+- **Monthly frequency**: End-of-month values
 
-### Historical Gold Data (1833-Present)
-- **Source**: `histprices.json` - Monthly gold price data
-- **Coverage**: 1833 to present (192+ years of data)
-- **Frequency**: Monthly prices
-- **Note**: S&P 500 data only available from 2000 onwards
+### Gold Price Data
+- **Source**: `histprices.json` (historical monthly gold prices)
+- **Range**: $37.88 (Jan 1971) to $4,369.20 (Oct 2025)
+- **Mean**: $729.86
+- **Coverage**: Complete from 1971 onwards
 
-### Data Processing
-- Daily data automatically aligned and merged by date
-- Historical monthly data seamlessly integrated
-- Combined view resamples daily to monthly for consistency
-- Missing values handled appropriately
+### S&P 500 Index Data
+- **Source**: Yahoo Finance API (^GSPC)
+- **Range**: 63.54 (Jan 1971) to 6,688.46 (Sep 2025)
+- **Mean**: $1,230.50
+- **Updated**: October 16, 2025
+
+### Data Processing Pipeline
+1. Load historical gold from JSON (1971+)
+2. Fetch S&P 500 from Yahoo Finance API
+3. Resample daily data to monthly (month-end)
+4. Align dates and merge datasets
+5. Validate and save to CSV
+
+### Recession Period Data
+Source: National Bureau of Economic Research (NBER)
+- 7 recession periods from 1973-2020
+- Accurately dated start and end months
+- Visualized as gray shading on all time-series charts
 
 ## 🔧 Dependencies
 
 ### Core Dependencies
-- `streamlit` - Web application framework
-- `pandas` - Data manipulation and analysis
-- `yfinance` - Yahoo Finance data fetching
-- `pyyaml` - Configuration file handling
+- `streamlit>=1.46.1` - Web application framework
+- `pandas>=2.3.1` - Data manipulation and analysis
+- `numpy` - Numerical computations
+- `matplotlib>=3.10.3` - Professional data visualization
+- `scipy>=1.11.0` - Statistical analysis (Pearson correlation)
+- `requests>=2.32.4` - HTTP library for API calls
+- `pyyaml>=6.0.2` - Configuration file handling
 
 ### Development Dependencies
-- `pytest` - Testing framework
-- `matplotlib` - Data visualization
-- `seaborn` - Statistical data visualization
+- `pytest>=8.4.1` - Testing framework
+- `seaborn>=0.13.2` - Statistical data visualization
 
-See `pyproject.toml` for complete dependency list and version specifications.
+See `requirements.txt` for complete dependency list with exact versions.
 
-## 🚀 Performance Features
+## � Key Insights & Use Cases
 
-- **Caching**: Processed data is cached to avoid redundant API calls
-- **Lazy Loading**: Data processing only occurs when needed
-- **Efficient Calculations**: Optimized pandas operations for performance
-- **Streamlined Interface**: Responsive UI with minimal loading times
+### Investment Analysis
+- **Safe Haven Testing**: See if gold truly performs better during recessions
+- **Diversification**: Analyze correlation to understand portfolio diversification benefits
+- **Long-term Trends**: 54+ years of data reveals secular trends
+- **Crisis Performance**: Examine behavior during 7 major economic crises
 
-## 📈 Analysis Capabilities
+### Statistical Applications
+- **Correlation Studies**: Measure relationship strength between assets
+- **Regression Analysis**: Linear relationships and predictive modeling
+- **Variance Explanation**: Understanding how much one asset explains the other
+- **Time-Varying Relationships**: Rolling correlation reveals changing dynamics
 
-### Performance Metrics
-- Absolute percentage changes
-- Relative performance comparison
-- Interval-based analysis
-- Historical trend identification
+### Historical Context
+- **Post-Gold Standard Era**: Analysis from the modern fiat currency period
+- **Multiple Market Cycles**: Bull markets, bear markets, and transitions
+- **Economic Regime Changes**: From stagflation to Great Moderation to QE era
+- **Crisis Comparisons**: Compare 1970s oil shocks to 2008 financial crisis to COVID-19
 
-### Time Period Analysis
-- Custom date range selection
-- Automatic interval splitting (5 equal periods)
-- Start-to-end performance calculation
-- Period-over-period comparison
+### Practical Applications
+- **Portfolio Construction**: Data-driven asset allocation decisions
+- **Risk Management**: Understanding correlation during market stress
+- **Academic Research**: Comprehensive dataset for financial studies
+- **Economic Education**: Visual learning about asset behavior over decades
 
 ## 🤝 Contributing
 
@@ -244,15 +268,47 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - **Documentation**: Additional docs available in the `utils/` directory
 - **Configuration**: See `config.yaml` and `utils/setup.md` for detailed setup information
 
-## 🔄 Changelog
+## 🔄 Recent Updates
 
-### Latest Updates
-- ✅ Streamlined project structure with files at repository root
-- ✅ Enhanced README with comprehensive documentation
-- ✅ Improved data processing pipeline
-- ✅ Added comprehensive test suite
-- ✅ Optimized performance and caching
+### v2.0 - Major Overhaul (October 2025)
+- ✅ **Focused 1971-Present Analysis**: Trimmed to post-gold-standard era
+- ✅ **Complete S&P 500 Integration**: Full dataset from Yahoo Finance
+- ✅ **Calendar Date Pickers**: Replaced slider with intuitive date selection
+- ✅ **Correlation Analysis (PMCC)**: Full statistical suite with scatter plots
+- ✅ **Recession Highlighting**: Visual markers for 7 NBER recession periods
+- ✅ **Matplotlib Visualizations**: Professional charts with line of best fit
+- ✅ **Removed Intervals**: Simplified to overall performance metrics
+- ✅ **Enhanced Documentation**: Comprehensive README with usage examples
+- ✅ **658 Monthly Records**: Complete, gap-free dataset
+
+### Data Quality
+- Latest data: October 16, 2025
+- No missing values in 54+ year period
+- Consistent monthly frequency throughout
+- Validated against source data
+
+## 📊 Technical Details
+
+### Why Monthly Data?
+- **Historical Consistency**: histprices.json provides reliable monthly gold data from 1971
+- **Reduced Noise**: Monthly data smooths out daily volatility for clearer trends
+- **Complete Coverage**: No gaps across entire 54-year period
+- **Trade-off**: Less granularity than daily data, but more robust for long-term analysis
+
+### Statistical Considerations
+- **Pearson Correlation**: Measures linear relationships (r from -1 to +1)
+- **P-value < 0.05**: Indicates statistically significant correlation
+- **Rolling Correlation Warning**: Monthly data limits reliability (see app disclaimer)
+- **R² Interpretation**: Coefficient of determination shows variance explained
+
+### Chart Features
+- **Recession Shading**: Semi-transparent gray for NBER recession periods
+- **Indexed Charts**: Base 100 at start date for normalized comparison
+- **Linear Regression**: Best-fit line on scatter plots
+- **Responsive Design**: Charts adapt to date range selection
 
 ---
 
-*Built using Streamlit and Python*
+**Repository**: [github.com/alexlodh/Gold_vs_Equities](https://github.com/alexlodh/Gold_vs_Equities)
+
+*Built with Streamlit, Pandas, Matplotlib, and SciPy*

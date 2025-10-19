@@ -354,6 +354,21 @@ else:
             # Rolling correlation analysis
             st.write("#### 📈 Rolling Correlation Over Time")
             
+            # Add disclaimer about monthly data limitations
+            st.markdown("""
+            <div style="background-color: #ffcccc; padding: 15px; border-radius: 5px; border-left: 5px solid #ff0000;">
+                <strong style="color: #cc0000; font-size: 16px;">⚠️ IMPORTANT LIMITATION:</strong><br>
+                <span style="color: #660000;">
+                This rolling correlation analysis has <strong>severe limitations</strong> due to monthly data frequency. 
+                With only 12 data points per year, even a 12-month window provides minimal statistical reliability. 
+                Rolling correlations calculated from monthly data are <strong>highly unstable</strong> and should be 
+                interpreted with extreme caution. Daily data would be required for meaningful rolling correlation analysis.
+                </span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.write("")  # Add spacing
+            
             # Let user select window size
             window_options = {
                 "3 months": 3,

@@ -19,6 +19,12 @@ data/raw/
 # Editor
 .vscode/
 
+# Web app artifacts
+/web/node_modules/
+/web/.next/
+/web/package-lock.json
+
+
 # Python
 __pycache__/
 *.py[cod]

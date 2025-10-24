@@ -12,7 +12,7 @@ aligns them by date, and saves the merged dataset as a CSV file.
 import os
 import pandas as pd
 import yaml
-from fetch_ticker import fetch_ticker_prices
+from gold_vs_equities.data.fetch_ticker import fetch_ticker_prices
 
 
 

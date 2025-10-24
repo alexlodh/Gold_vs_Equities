@@ -1,0 +1,19 @@
+# Ignore files/directories that should not be included in build context
+# Node / Next
+web/node_modules
+web/.next
+web/.turbo
+
+# Python
+venv
+.venv
+__pycache__
+*.pyc
+
+# General
+.git
+.DS_Store
+dist
+coverage
+npm-debug.log
+yarn-error.log

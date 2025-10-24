@@ -20,7 +20,7 @@ def plot_gold_sp500(csv_path):
     plt.tight_layout()
     plt.show()
 
-from utils.load_config import load_config
+from gold_vs_equities.utils.load_config import load_config
 
 if __name__ == "__main__":
     config = load_config("config.yaml")

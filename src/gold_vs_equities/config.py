@@ -8,8 +8,8 @@ import os
 from typing import Dict, Any
 
 try:
-    # Reuse existing utility if present
-    from utils.load_config import load_config as _load_yaml_config
+    # Reuse existing utility if present inside the package
+    from gold_vs_equities.utils.load_config import load_config as _load_yaml_config
 except Exception:
     _load_yaml_config = None
 

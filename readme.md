@@ -21,6 +21,30 @@ A sophisticated Streamlit web application for analyzing and comparing Gold vs S&
 - **Correlation Strength Interpretation**: Automated categorization (Strong/Moderate/Weak)
 
 ### 🎨 Advanced Visualizations
+````markdown
+# Gold vs S&P 500: Historical Analysis (1971-Present)
+
+A sophisticated Streamlit web application for analyzing and comparing Gold vs S&P 500 performance from 1971 onwards—the year the US left the gold standard. Features advanced statistical analysis, correlation studies, and recession period highlighting for comprehensive investment insights.
+
+## 🚀 Features
+
+### 📊 Comprehensive Analysis Tools
+- **Historical Dataset**: 658 monthly records from January 1971 to October 2025
+- **Calendar-Style Date Selection**: Easy-to-use date pickers for precise period selection
+- **Preset Ranges**: Quick access to 1Y, 5Y, 10Y, 20Y, Since 2000, Since 1980, or complete dataset
+- **Overall Performance Metrics**: Clear percentage changes with start/end values
+- **Indexed Price Charts**: Normalized performance visualization (base 100)
+- **Recession Highlighting**: Gray shading on all charts for NBER-defined recession periods
+
+### 📈 Statistical Analysis (PMCC)
+- **Pearson Correlation Coefficient**: Measure linear relationship between assets
+- **Statistical Significance**: P-values and confidence metrics
+- **Scatter Plot with Best-Fit Line**: Matplotlib visualization with linear regression
+- **Coefficient of Determination (R²)**: Variance explanation analysis
+- **Rolling Correlation**: Time-varying correlation with adjustable windows (3-36 months)
+- **Correlation Strength Interpretation**: Automated categorization (Strong/Moderate/Weak)
+
+### 🎨 Advanced Visualizations
 - **Professional Charts**: Matplotlib-based with recession period shading
 - **Line of Best Fit**: Linear regression on scatter plots
 - **Multiple Chart Types**: Price history, scatter plots, rolling correlations
@@ -58,9 +82,14 @@ A sophisticated Streamlit web application for analyzing and comparing Gold vs S&
 │   ├── test_eda.py               # Analysis function tests
 │   └── test_preprocess.py        # Data processing tests
 │
-└── utils/                         # Utilities and documentation
-    ├── load_config.py            # Configuration loader
-    └── copilot-instructions.md   # Development guidelines
+├── utils/                         # Utilities and documentation
+│   ├── load_config.py            # Configuration loader
+│   └── copilot-instructions.md   # Development guidelines
+│
+└── web/                          # Next.js + shadcn dashboard (React)
+    ├── app/                     # App router pages/layouts
+    ├── components/              # Shadcn UI components
+    └── package.json             # Node dependencies
 ```
 
 ## 🛠️ Installation & Setup
@@ -90,6 +119,25 @@ A sophisticated Streamlit web application for analyzing and comparing Gold vs S&
 4. **Open your browser**
    - Navigate to `http://localhost:8501`
    - Start analyzing!
+
+### 🆕 Shadcn (Next.js) Dashboard
+
+The repository now includes a fully responsive React implementation using Next.js 14 and shadcn/ui components. It reads the same CSV dataset and mirrors the Streamlit experience with modern web tooling.
+
+1. **Install Node dependencies**
+   ```bash
+   cd web
+   npm install
+   ```
+2. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+3. **Open your browser**
+   - Navigate to `http://localhost:3000`
+   - Interact with the shadcn dashboard (preset ranges, custom date picker, indexed charts, correlation + rolling analysis, recession shading)
+
+The Next.js app reads data from `../data/gold_sp500_aligned.csv`. Ensure the dataset exists (generate it with `python src/preprocess_1971.py` if needed) before launching the React dashboard.
 
 ### Data Regeneration (Optional)
 
@@ -312,3 +360,34 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 **Repository**: [github.com/alexlodh/Gold_vs_Equities](https://github.com/alexlodh/Gold_vs_Equities)
 
 *Built with Streamlit, Pandas, Matplotlib, and SciPy*
+
+## 🐳 Docker: Run the shadcn (Next.js) frontend
+
+You can build and run the shadcn/Next.js dashboard in a container. The repository includes a production Dockerfile at `web/Dockerfile` and a `docker-compose.yml` that exposes the frontend at http://localhost:3001.
+
+1) Build and run (production image)
+
+```bash
+# from repository root
+docker compose build web
+docker compose up -d web
+```
+
+2) Verify
+
+Open your browser at:
+
+- Frontend: http://localhost:3001
+
+3) Stop and remove
+
+```bash
+docker compose down
+```
+
+Dev notes
+- The production image runs `next start` on port `3000` inside the container and `docker-compose.yml` maps it to `3001` on the host. If you prefer fast local iteration, run the dev server locally with `npm run dev` inside `web/` (bind mounts or a dev-specific compose file reduce rebuilds).
+
+If you want me to also add a development `docker-compose.override.yml` with volumes for hot-reload, tell me and I'll add it.
+
+````
